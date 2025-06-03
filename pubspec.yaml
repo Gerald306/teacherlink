@@ -1,0 +1,43 @@
+name: teacher_connect
+description: A platform connecting teachers with schools in Uganda
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.5
+  firebase_core: ^2.15.1
+  firebase_auth: ^4.7.3
+  cloud_firestore: ^4.8.5
+  firebase_storage: ^11.2.6
+  provider: ^6.0.5
+  shared_preferences: ^2.2.0
+  image_picker: ^1.0.2
+  file_picker: ^5.3.3
+  path_provider: ^2.1.0
+  intl: ^0.18.1
+  url_launcher: ^6.1.12
+  flutter_svg: ^2.0.7
+  cached_network_image: ^3.2.3
+  flutter_spinkit: ^5.2.0
+  google_fonts: ^5.1.0
+  flutter_secure_storage: ^8.0.0
+  uuid: ^3.0.7
+  http: ^1.1.0
+  flutter_local_notifications: ^15.1.0+1
+  permission_handler: ^11.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.2
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/icons/

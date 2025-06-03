@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Connect Uganda - Demo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #2E7D32, #1B5E20);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .phone-container {
+            width: 375px;
+            height: 812px;
+            background: #F8F9FA;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            background: linear-gradient(135deg, #2E7D32, #1B5E20);
+        }
+
+        .logo-section {
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+            color: white;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo .material-icons {
+            font-size: 60px;
+            color: #2E7D32;
+        }
+
+        .app-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .app-subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            text-align: center;
+        }
+
+        .form-section {
+            flex: 3;
+            background: #F8F9FA;
+            border-radius: 30px 30px 0 0;
+            padding: 32px;
+        }
+
+        .form-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1A1A1A;
+            margin-bottom: 8px;
+        }
+
+        .form-subtitle {
+            color: #6B7280;
+            margin-bottom: 32px;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-label {
+            display: block;
+            font-weight: 600;
+            color: #1A1A1A;
+            margin-bottom: 8px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 18px 16px;
+            border: 1px solid rgba(156, 163, 175, 0.3);
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #2E7D32;
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 24px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2E7D32, #1B5E20);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.3);
+        }
+
+        .link-text {
+            text-align: center;
+            margin-top: 16px;
+            color: #6B7280;
+        }
+
+        .link-text a {
+            color: #2E7D32;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Dashboard Screen */
+        .dashboard-screen {
+            background: #F8F9FA;
+        }
+
+        .app-bar {
+            background: linear-gradient(135deg, #2E7D32, #1B5E20);
+            padding: 20px;
+            color: white;
+        }
+
+        .app-bar-content {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .avatar .material-icons {
+            color: #2E7D32;
+            font-size: 30px;
+        }
+
+        .user-info h3 {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .user-info p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .dashboard-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .welcome-card {
+            background: linear-gradient(135deg, rgba(255, 167, 38, 0.1), rgba(255, 143, 0, 0.05));
+            border: 1px solid rgba(255, 167, 38, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2E7D32;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #6B7280;
+            margin-top: 4px;
+        }
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .action-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .action-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(46, 125, 50, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+        }
+
+        .action-icon .material-icons {
+            color: #2E7D32;
+            font-size: 24px;
+        }
+
+        .bottom-nav {
+            background: white;
+            padding: 16px;
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            color: #9CA3AF;
+            transition: color 0.2s;
+        }
+
+        .nav-item.active {
+            color: #2E7D32;
+        }
+
+        .nav-item .material-icons {
+            font-size: 24px;
+        }
+
+        .nav-item span {
+            font-size: 12px;
+        }
+
+        /* Controls */
+        .demo-controls {
+            position: absolute;
+            top: -60px;
+            left: 0;
+            right: 0;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .demo-btn {
+            padding: 8px 16px;
+            background: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .demo-btn.active {
+            background: #2E7D32;
+            color: white;
+        }
+
+        .demo-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .screen.active {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .phone-container {
+                width: 100vw;
+                height: 100vh;
+                border-radius: 0;
+            }
+            
+            .demo-controls {
+                position: fixed;
+                bottom: 20px;
+                top: auto;
+                background: rgba(0, 0, 0, 0.8);
+                padding: 10px;
+                border-radius: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="demo-controls">
+            <button class="demo-btn active" onclick="showScreen('login')">Login</button>
+            <button class="demo-btn" onclick="showScreen('signup')">Signup</button>
+            <button class="demo-btn" onclick="showScreen('dashboard')">Dashboard</button>
+            <button class="demo-btn" onclick="showScreen('jobs')">Jobs</button>
+            <button class="demo-btn" onclick="showScreen('subscription')">Premium</button>
+            <button class="demo-btn" onclick="showScreen('profile')">Profile</button>
+            <button class="demo-btn" onclick="showScreen('admin')">Admin</button>
+        </div>
+
+        <!-- Login Screen -->
+        <div class="screen login-screen active" id="login-screen">
+            <div class="logo-section">
+                <div class="logo">
+                    <span class="material-icons">school</span>
+                </div>
+                <h1 class="app-title">Teacher Connect</h1>
+                <p class="app-subtitle">Connecting Teachers with Schools in Uganda</p>
+            </div>
+            
+            <div class="form-section">
+                <h2 class="form-title">Welcome Back!</h2>
+                <p class="form-subtitle">Sign in to continue your journey</p>
+                
+                <form>
+                    <div class="input-group">
+                        <label class="input-label">Email Address</label>
+                        <input type="email" class="input-field" placeholder="Enter your email" value="teacher@example.com">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label class="input-label">Password</label>
+                        <input type="password" class="input-field" placeholder="Enter your password" value="••••••••">
+                    </div>
+                    
+                    <button type="button" class="btn btn-primary" onclick="showScreen('dashboard')">
+                        Sign In
+                    </button>
+                </form>
+                
+                <p class="link-text">
+                    Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Dashboard Screen -->
+        <div class="screen dashboard-screen" id="dashboard-screen">
+            <div class="app-bar">
+                <div class="app-bar-content">
+                    <div class="avatar">
+                        <span class="material-icons">person</span>
+                    </div>
+                    <div class="user-info">
+                        <h3>Welcome back!</h3>
+                        <p>John Doe</p>
+                    </div>
+                    <div style="margin-left: auto;">
+                        <span class="material-icons">notifications</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-content">
+                <div class="welcome-card">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+                        <span class="material-icons" style="color: #FFA726;">star</span>
+                        <span style="color: #FFA726; font-weight: 600;">Premium Member</span>
+                    </div>
+                    <p style="color: #6B7280;">You have access to all premium features!</p>
+                </div>
+                
+                <h3 style="margin-bottom: 16px; color: #1A1A1A;">Quick Stats</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">127</div>
+                        <div class="stat-label">Profile Views</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">Applications</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">3</div>
+                        <div class="stat-label">Interviews</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">1</div>
+                        <div class="stat-label">Job Offers</div>
+                    </div>
+                </div>
+                
+                <h3 style="margin-bottom: 16px; color: #1A1A1A;">Quick Actions</h3>
+                <div class="actions-grid">
+                    <div class="action-card" onclick="showScreen('jobs')">
+                        <div class="action-icon">
+                            <span class="material-icons">work</span>
+                        </div>
+                        <div style="font-weight: 600; color: #1A1A1A;">Browse Jobs</div>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <span class="material-icons">edit</span>
+                        </div>
+                        <div style="font-weight: 600; color: #1A1A1A;">Edit Profile</div>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <span class="material-icons">assignment</span>
+                        </div>
+                        <div style="font-weight: 600; color: #1A1A1A;">My Applications</div>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <span class="material-icons">message</span>
+                        </div>
+                        <div style="font-weight: 600; color: #1A1A1A;">Messages</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item active">
+                    <span class="material-icons">dashboard</span>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item" onclick="showScreen('jobs')">
+                    <span class="material-icons">work</span>
+                    <span>Jobs</span>
+                </div>
+                <div class="nav-item">
+                    <span class="material-icons">assignment</span>
+                    <span>Applications</span>
+                </div>
+                <div class="nav-item">
+                    <span class="material-icons">person</span>
+                    <span>Profile</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Jobs Screen -->
+        <div class="screen dashboard-screen" id="jobs-screen">
+            <div class="app-bar">
+                <div class="app-bar-content">
+                    <span class="material-icons" onclick="showScreen('dashboard')" style="cursor: pointer;">arrow_back</span>
+                    <h3 style="margin-left: 16px;">Find Jobs</h3>
+                    <div style="margin-left: auto;">
+                        <span class="material-icons">filter_list</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-content">
+                <div class="input-group">
+                    <input type="text" class="input-field" placeholder="Search jobs..." style="margin-bottom: 16px;">
+                </div>
+                
+                <div style="display: flex; gap: 8px; margin-bottom: 24px; overflow-x: auto;">
+                    <div style="background: #2E7D32; color: white; padding: 8px 16px; border-radius: 20px; white-space: nowrap; font-size: 14px;">All Jobs</div>
+                    <div style="background: white; border: 1px solid #E5E7EB; padding: 8px 16px; border-radius: 20px; white-space: nowrap; font-size: 14px;">Full Time</div>
+                    <div style="background: white; border: 1px solid #E5E7EB; padding: 8px 16px; border-radius: 20px; white-space: nowrap; font-size: 14px;">Part Time</div>
+                </div>
+                
+                <p style="color: #1A1A1A; font-weight: 600; margin-bottom: 16px;">24 jobs found</p>
+                
+                <!-- Job Card 1 -->
+                <div style="background: white; border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
+                    <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                        <div style="width: 50px; height: 50px; background: rgba(46, 125, 50, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <span class="material-icons" style="color: #2E7D32;">business</span>
+                        </div>
+                        <div style="flex: 1;">
+                            <h4 style="color: #1A1A1A; margin-bottom: 4px;">Mathematics Teacher</h4>
+                            <p style="color: #6B7280; font-size: 14px;">Kampala International School</p>
+                        </div>
+                        <div style="background: #FFA726; color: white; padding: 4px 8px; border-radius: 12px; font-size: 10px; font-weight: bold; height: fit-content;">FEATURED</div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 16px; margin-bottom: 12px; font-size: 14px; color: #6B7280;">
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <span class="material-icons" style="font-size: 16px;">location_on</span>
+                            <span>Kampala</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <span class="material-icons" style="font-size: 16px;">work</span>
+                            <span>FULL TIME</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                        <span style="background: rgba(46, 125, 50, 0.1); color: #2E7D32; padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 600;">Mathematics</span>
+                        <span style="background: rgba(46, 125, 50, 0.1); color: #2E7D32; padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 600;">Physics</span>
+                    </div>
+                    
+                    <p style="color: #6B7280; font-size: 14px; margin-bottom: 16px;">We are looking for a qualified Mathematics teacher to join our team. The ideal candidate should have...</p>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: #9CA3AF; font-size: 12px;">Posted 2 days ago</span>
+                        <button style="background: white; border: 2px solid #2E7D32; color: #2E7D32; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer;">View Details</button>
+                    </div>
+                </div>
+                
+                <!-- Job Card 2 -->
+                <div style="background: white; border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
+                    <div style="display: flex; gap: 16px; margin-bottom: 16px;">
+                        <div style="width: 50px; height: 50px; background: rgba(46, 125, 50, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                            <span class="material-icons" style="color: #2E7D32;">business</span>
+                        </div>
+                        <div style="flex: 1;">
+                            <h4 style="color: #1A1A1A; margin-bottom: 4px;">English Teacher</h4>
+                            <p style="color: #6B7280; font-size: 14px;">St. Mary's Secondary School</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 16px; margin-bottom: 12px; font-size: 14px; color: #6B7280;">
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <span class="material-icons" style="font-size: 16px;">location_on</span>
+                            <span>Entebbe</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 4px;">
+                            <span class="material-icons" style="font-size: 16px;">work</span>
+                            <span>PART TIME</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                        <span style="background: rgba(46, 125, 50, 0.1); color: #2E7D32; padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 600;">English</span>
+                        <span style="background: rgba(46, 125, 50, 0.1); color: #2E7D32; padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 600;">Literature</span>
+                    </div>
+                    
+                    <p style="color: #6B7280; font-size: 14px; margin-bottom: 16px;">Seeking an experienced English teacher for part-time position. Must have strong communication skills...</p>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: #9CA3AF; font-size: 12px;">Posted 1 week ago</span>
+                        <button style="background: white; border: 2px solid #2E7D32; color: #2E7D32; padding: 8px 16px; border-radius: 8px; font-weight: 600; cursor: pointer;">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bottom-nav">
+                <div class="nav-item" onclick="showScreen('dashboard')">
+                    <span class="material-icons">dashboard</span>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item active">
+                    <span class="material-icons">work</span>
+                    <span>Jobs</span>
+                </div>
+                <div class="nav-item">
+                    <span class="material-icons">assignment</span>
+                    <span>Applications</span>
+                </div>
+                <div class="nav-item">
+                    <span class="material-icons">person</span>
+                    <span>Profile</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signup Screen -->
+        <div class="screen login-screen" id="signup-screen">
+            <div class="logo-section">
+                <div class="logo">
+                    <span class="material-icons">school</span>
+                </div>
+                <h1 class="app-title">Join Teacher Connect</h1>
+                <p class="app-subtitle">Create your account to get started</p>
+            </div>
+
+            <div class="form-section">
+                <h2 class="form-title">Create Account</h2>
+                <p class="form-subtitle">Fill in your details to get started</p>
+
+                <div style="margin-bottom: 20px;">
+                    <label class="input-label">I am a:</label>
+                    <div style="display: flex; gap: 12px;">
+                        <div style="flex: 1; padding: 16px; background: rgba(46, 125, 50, 0.1); border: 2px solid #2E7D32; border-radius: 12px; text-align: center; cursor: pointer;">
+                            <span class="material-icons" style="color: #2E7D32; display: block; margin-bottom: 8px;">person</span>
+                            <span style="color: #2E7D32; font-weight: 600;">Teacher</span>
+                        </div>
+                        <div style="flex: 1; padding: 16px; background: white; border: 1px solid #E5E7EB; border-radius: 12px; text-align: center; cursor: pointer;">
+                            <span class="material-icons" style="color: #6B7280; display: block; margin-bottom: 8px;">business</span>
+                            <span style="color: #6B7280; font-weight: 500;">School</span>
+                        </div>
+                    </div>
+                </div>
+
+                <form>
+                    <div class="input-group">
+                        <label class="input-label">Full Name</label>
+                        <input type="text" class="input-field" placeholder="Enter your full name">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Email Address</label>
+                        <input type="email" class="input-field" placeholder="Enter your email">
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Password</label>
+                        <input type="password" class="input-field" placeholder="Create a password">
+                    </div>
+
+                    <button type="button" class="btn btn-primary" onclick="showScreen('profile')">
+                        Create Account
+                    </button>
+                </form>
+
+                <p class="link-text">
+                    Already have an account? <a href="#" onclick="showScreen('login')">Sign In</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Subscription Screen -->
+        <div class="screen dashboard-screen" id="subscription-screen">
+            <div class="app-bar">
+                <div class="app-bar-content">
+                    <span class="material-icons" onclick="showScreen('dashboard')" style="cursor: pointer;">arrow_back</span>
+                    <h3 style="margin-left: 16px;">Choose Your Plan</h3>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- Header -->
+                <div style="background: linear-gradient(135deg, #2E7D32, #1B5E20); border-radius: 16px; padding: 24px; margin-bottom: 24px; color: white;">
+                    <span class="material-icons" style="font-size: 32px; margin-bottom: 12px;">star</span>
+                    <h2 style="margin-bottom: 8px;">Unlock Premium Features</h2>
+                    <p style="opacity: 0.9;">Get priority access to job opportunities and advanced features</p>
+                </div>
+
+                <!-- Premium Plan -->
+                <div style="background: white; border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); border: 2px solid #FFA726; position: relative;">
+                    <div style="position: absolute; top: 0; right: 0; background: #FFA726; color: white; padding: 6px 12px; border-radius: 0 16px 0 16px; font-size: 12px; font-weight: bold;">POPULAR</div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <div>
+                            <h3 style="color: #1A1A1A; margin-bottom: 4px;">Premium Plan</h3>
+                            <p style="color: #6B7280; font-size: 14px;">30 days</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <div style="font-size: 20px; font-weight: bold; color: #2E7D32;">UGX 25,000</div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 16px;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                            <span class="material-icons" style="color: #4CAF50; font-size: 16px;">check_circle</span>
+                            <span style="color: #6B7280; font-size: 14px;">Unlimited job applications</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                            <span class="material-icons" style="color: #4CAF50; font-size: 16px;">check_circle</span>
+                            <span style="color: #6B7280; font-size: 14px;">Priority profile visibility</span>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span class="material-icons" style="color: #4CAF50; font-size: 16px;">check_circle</span>
+                            <span style="color: #6B7280; font-size: 14px;">Featured in search results</span>
+                        </div>
+                    </div>
+                    <button style="width: 100%; padding: 12px; background: linear-gradient(135deg, #2E7D32, #1B5E20); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;" onclick="showPaymentModal()">Select Plan</button>
+                </div>
+
+                <!-- Payment Method -->
+                <div style="background: white; border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
+                    <h3 style="margin-bottom: 16px;">Payment Method</h3>
+                    <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                        <div style="flex: 1; padding: 16px; background: rgba(255, 193, 7, 0.1); border: 2px solid #FFC107; border-radius: 12px; text-align: center; cursor: pointer;">
+                            <div style="width: 40px; height: 40px; background: #FFC107; border-radius: 8px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center;">
+                                <span class="material-icons" style="color: white; font-size: 20px;">phone_android</span>
+                            </div>
+                            <span style="color: #FFC107; font-weight: 600; font-size: 12px;">MTN Mobile Money</span>
+                        </div>
+                        <div style="flex: 1; padding: 16px; background: white; border: 1px solid #E5E7EB; border-radius: 12px; text-align: center; cursor: pointer;">
+                            <div style="width: 40px; height: 40px; background: #DC2626; border-radius: 8px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center;">
+                                <span class="material-icons" style="color: white; font-size: 20px;">phone_android</span>
+                            </div>
+                            <span style="color: #6B7280; font-weight: 500; font-size: 12px;">Airtel Money</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Phone Number</label>
+                        <input type="tel" class="input-field" placeholder="Enter your mobile money number" value="+256 700 123 456">
+                    </div>
+
+                    <button style="width: 100%; padding: 12px; background: linear-gradient(135deg, #2E7D32, #1B5E20); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 16px;" onclick="showPaymentSuccess()">Pay Now</button>
+
+                    <div style="background: rgba(33, 150, 243, 0.1); border: 1px solid rgba(33, 150, 243, 0.3); border-radius: 12px; padding: 16px; margin-top: 16px;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <span class="material-icons" style="color: #2196F3; font-size: 20px;">info</span>
+                            <span style="color: #2196F3; font-size: 14px;">You will receive a payment prompt on your phone. Enter your mobile money PIN to complete the transaction.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Setup Screen -->
+        <div class="screen dashboard-screen" id="profile-screen">
+            <div class="app-bar">
+                <div class="app-bar-content">
+                    <span class="material-icons" onclick="showScreen('signup')" style="cursor: pointer;">arrow_back</span>
+                    <h3 style="margin-left: 16px;">Setup Your Profile</h3>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- Progress -->
+                <div style="display: flex; gap: 2px; margin-bottom: 24px;">
+                    <div style="flex: 1; height: 4px; background: #2E7D32; border-radius: 2px;"></div>
+                    <div style="flex: 1; height: 4px; background: #2E7D32; border-radius: 2px;"></div>
+                    <div style="flex: 1; height: 4px; background: #E5E7EB; border-radius: 2px;"></div>
+                    <div style="flex: 1; height: 4px; background: #E5E7EB; border-radius: 2px;"></div>
+                </div>
+
+                <h2 style="margin-bottom: 8px;">Subjects & Skills</h2>
+                <p style="color: #6B7280; margin-bottom: 24px;">Select the subjects you teach and your skills</p>
+
+                <!-- Subjects -->
+                <h3 style="margin-bottom: 12px;">Subjects I Teach</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px;">
+                    <span style="background: #2E7D32; color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600;">Mathematics</span>
+                    <span style="background: #2E7D32; color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600;">Physics</span>
+                    <span style="background: white; border: 1px solid #E5E7EB; color: #6B7280; padding: 8px 16px; border-radius: 20px; font-size: 14px; cursor: pointer;">Chemistry</span>
+                    <span style="background: white; border: 1px solid #E5E7EB; color: #6B7280; padding: 8px 16px; border-radius: 20px; font-size: 14px; cursor: pointer;">Biology</span>
+                    <span style="background: white; border: 1px solid #E5E7EB; color: #6B7280; padding: 8px 16px; border-radius: 20px; font-size: 14px; cursor: pointer;">English</span>
+                    <span style="background: white; border: 1px solid #E5E7EB; color: #6B7280; padding: 8px 16px; border-radius: 20px; font-size: 14px; cursor: pointer;">History</span>
+                </div>
+
+                <!-- Skills -->
+                <h3 style="margin-bottom: 12px;">Skills & Expertise</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px;">
+                    <span style="background: #FFA726; color: white; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 600;">Classroom Management</span>
+                    <span style="background: white; border: 1px solid #E5E7EB; color: #6B7280; padding: 8px 16px; border-radius: 20px; font-size: 14px; cursor: pointer;">Curriculum Development</span>
+                    <span style="background: white; border: 1px solid #E5E7EB; color: #6B7280; padding: 8px 16px; border-radius: 20px; font-size: 14px; cursor: pointer;">Student Assessment</span>
+                    <span style="background: white; border: 1px solid #E5E7EB; color: #6B7280; padding: 8px 16px; border-radius: 20px; font-size: 14px; cursor: pointer;">Technology Integration</span>
+                </div>
+
+                <!-- Experience -->
+                <div style="background: white; border-radius: 16px; padding: 20px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
+                    <h3 style="margin-bottom: 16px;">Years of Experience</h3>
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <span class="material-icons" style="color: #2E7D32;">work</span>
+                        <div style="flex: 1; height: 4px; background: #E5E7EB; border-radius: 2px; position: relative;">
+                            <div style="width: 40%; height: 100%; background: #2E7D32; border-radius: 2px;"></div>
+                            <div style="position: absolute; left: 40%; top: -8px; width: 16px; height: 16px; background: #2E7D32; border-radius: 50%; transform: translateX(-50%);"></div>
+                        </div>
+                        <span style="color: #2E7D32; font-weight: 600;">5 years</span>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div style="display: flex; gap: 16px;">
+                    <button style="flex: 1; padding: 12px; background: white; border: 2px solid #2E7D32; color: #2E7D32; border-radius: 8px; font-weight: 600; cursor: pointer;">Previous</button>
+                    <button style="flex: 1; padding: 12px; background: linear-gradient(135deg, #2E7D32, #1B5E20); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;" onclick="showScreen('dashboard')">Complete Setup</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard Screen -->
+        <div class="screen dashboard-screen" id="admin-screen">
+            <div class="app-bar">
+                <div class="app-bar-content">
+                    <div class="avatar">
+                        <span class="material-icons">admin_panel_settings</span>
+                    </div>
+                    <div class="user-info">
+                        <h3>Admin Dashboard</h3>
+                        <p>Platform Management</p>
+                    </div>
+                    <div style="margin-left: auto;">
+                        <span class="material-icons">notifications</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-content">
+                <!-- Welcome Card -->
+                <div style="background: linear-gradient(135deg, #2E7D32, #1B5E20); border-radius: 16px; padding: 24px; margin-bottom: 24px; color: white;">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <span class="material-icons" style="font-size: 32px;">admin_panel_settings</span>
+                        <div>
+                            <h2 style="margin-bottom: 4px;">Welcome, Admin!</h2>
+                            <p style="opacity: 0.9;">Manage teachers, schools, and job postings</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Platform Overview -->
+                <h3 style="margin-bottom: 16px; color: #1A1A1A;">Platform Overview</h3>
+
+                <!-- Teacher Statistics -->
+                <div style="background: white; border-radius: 16px; padding: 20px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
+                    <h4 style="margin-bottom: 16px; color: #1A1A1A;">Teachers</h4>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" style="color: #2E7D32;">1,247</div>
+                            <div class="stat-label">Total</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" style="color: #4CAF50;">892</div>
+                            <div class="stat-label">Verified</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" style="color: #FFA726;">156</div>
+                            <div class="stat-label">Premium</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" style="color: #2196F3;">734</div>
+                            <div class="stat-label">Available</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Statistics -->
+                <div style="background: white; border-radius: 16px; padding: 20px; margin-bottom: 24px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);">
+                    <h4 style="margin-bottom: 16px; color: #1A1A1A;">Jobs & Applications</h4>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" style="color: #2E7D32;">89</div>
+                            <div class="stat-label">Active Jobs</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" style="color: #FF9800;">23</div>
+                            <div class="stat-label">This Week</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" style="color: #FFA726;">12</div>
+                            <div class="stat-label">Featured</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" style="color: #4CAF50;">2,156</div>
+                            <div class="stat-label">Applications</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <h3 style="margin-bottom: 16px; color: #1A1A1A;">Quick Actions</h3>
+                <div class="actions-grid">
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <span class="material-icons">people</span>
+                        </div>
+                        <div style="font-weight: 600; color: #1A1A1A;">Manage Teachers</div>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <span class="material-icons">business</span>
+                        </div>
+                        <div style="font-weight: 600; color: #1A1A1A;">Manage Schools</div>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <span class="material-icons">assignment</span>
+                        </div>
+                        <div style="font-weight: 600; color: #1A1A1A;">Review Applications</div>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-icon">
+                            <span class="material-icons">analytics</span>
+                        </div>
+                        <div style="font-weight: 600; color: #1A1A1A;">Platform Analytics</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bottom-nav">
+                <div class="nav-item active">
+                    <span class="material-icons">dashboard</span>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item">
+                    <span class="material-icons">people</span>
+                    <span>Teachers</span>
+                </div>
+                <div class="nav-item">
+                    <span class="material-icons">business</span>
+                    <span>Schools</span>
+                </div>
+                <div class="nav-item">
+                    <span class="material-icons">analytics</span>
+                    <span>Analytics</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showScreen(screenName) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+
+            // Show selected screen
+            document.getElementById(screenName + '-screen').classList.add('active');
+
+            // Update demo buttons
+            document.querySelectorAll('.demo-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Find and activate the correct button
+            const buttons = document.querySelectorAll('.demo-btn');
+            buttons.forEach(btn => {
+                if (btn.textContent.toLowerCase().includes(screenName.toLowerCase()) ||
+                    (screenName === 'login' && btn.textContent === 'Login') ||
+                    (screenName === 'signup' && btn.textContent === 'Signup') ||
+                    (screenName === 'dashboard' && btn.textContent === 'Dashboard') ||
+                    (screenName === 'jobs' && btn.textContent === 'Jobs') ||
+                    (screenName === 'subscription' && btn.textContent === 'Premium') ||
+                    (screenName === 'profile' && btn.textContent === 'Profile') ||
+                    (screenName === 'admin' && btn.textContent === 'Admin')) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        function showSignup() {
+            showScreen('signup');
+        }
+
+        function showPaymentModal() {
+            alert('🎉 Payment integration ready!\n\nIn the real app, this would:\n• Connect to MTN/Airtel APIs\n• Process mobile money payments\n• Update user subscription status\n• Send confirmation SMS');
+        }
+
+        function showPaymentSuccess() {
+            alert('✅ Payment Successful!\n\nUGX 25,000 has been deducted from your mobile money account.\n\nYour Premium subscription is now active!\n\n• Unlimited job applications\n• Priority profile visibility\n• Featured in search results');
+
+            // Simulate going back to dashboard
+            setTimeout(() => {
+                showScreen('dashboard');
+            }, 1000);
+        }
+
+        // Add interactive features
+        document.addEventListener('DOMContentLoaded', function() {
+            // Simulate loading
+            setTimeout(() => {
+                console.log('🇺🇬 Teacher Connect Uganda Demo Loaded!');
+                console.log('📱 Features: Login, Signup, Dashboard, Jobs, Premium, Profile, Admin');
+                console.log('🎨 Design: Uganda-inspired colors, Material 3, Responsive');
+                console.log('💳 Payment: MTN & Airtel Mobile Money ready');
+            }, 1000);
+
+            // Add click handlers for interactive elements
+            document.addEventListener('click', function(e) {
+                // Handle role selection in signup
+                if (e.target.closest('.role-selector')) {
+                    document.querySelectorAll('.role-selector').forEach(el => {
+                        el.style.background = 'white';
+                        el.style.border = '1px solid #E5E7EB';
+                        el.querySelector('span:last-child').style.color = '#6B7280';
+                        el.querySelector('.material-icons').style.color = '#6B7280';
+                    });
+
+                    const selected = e.target.closest('.role-selector');
+                    selected.style.background = 'rgba(46, 125, 50, 0.1)';
+                    selected.style.border = '2px solid #2E7D32';
+                    selected.querySelector('span:last-child').style.color = '#2E7D32';
+                    selected.querySelector('.material-icons').style.color = '#2E7D32';
+                }
+
+                // Handle subject/skill selection
+                if (e.target.tagName === 'SPAN' && e.target.style.cursor === 'pointer') {
+                    if (e.target.style.background === 'white' || !e.target.style.background) {
+                        e.target.style.background = '#2E7D32';
+                        e.target.style.color = 'white';
+                        e.target.style.border = '1px solid #2E7D32';
+                        e.target.style.fontWeight = '600';
+                    } else {
+                        e.target.style.background = 'white';
+                        e.target.style.color = '#6B7280';
+                        e.target.style.border = '1px solid #E5E7EB';
+                        e.target.style.fontWeight = 'normal';
+                    }
+                }
+
+                // Handle payment method selection
+                if (e.target.closest('.payment-method')) {
+                    document.querySelectorAll('.payment-method').forEach(el => {
+                        el.style.background = 'white';
+                        el.style.border = '1px solid #E5E7EB';
+                    });
+
+                    const selected = e.target.closest('.payment-method');
+                    if (selected.textContent.includes('MTN')) {
+                        selected.style.background = 'rgba(255, 193, 7, 0.1)';
+                        selected.style.border = '2px solid #FFC107';
+                    } else {
+                        selected.style.background = 'rgba(220, 38, 38, 0.1)';
+                        selected.style.border = '2px solid #DC2626';
+                    }
+                }
+            });
+
+            // Add hover effects for cards
+            document.querySelectorAll('.action-card, .stat-card, .job-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-2px)';
+                    this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.15)';
+                });
+
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.05)';
+                });
+            });
+
+            // Add button hover effects
+            document.querySelectorAll('button').forEach(btn => {
+                btn.addEventListener('mouseenter', function() {
+                    if (!this.disabled) {
+                        this.style.transform = 'translateY(-1px)';
+                        this.style.boxShadow = '0 4px 12px rgba(46, 125, 50, 0.3)';
+                    }
+                });
+
+                btn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = 'none';
+                });
+            });
+
+            // Simulate typing effect for demo
+            const demoTexts = [
+                'Welcome to Teacher Connect Uganda! 🇺🇬',
+                'Connecting qualified teachers with schools across Uganda',
+                'Modern UI • Mobile Money • Real-time matching',
+                'Built with Flutter • Firebase • Material Design'
+            ];
+
+            let textIndex = 0;
+            setInterval(() => {
+                console.log(`💡 ${demoTexts[textIndex]}`);
+                textIndex = (textIndex + 1) % demoTexts.length;
+            }, 5000);
+        });
+
+        // Utility functions
+        function formatCurrency(amount) {
+            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
+
+        function showToast(message, type = 'info') {
+            // In a real app, this would show a toast notification
+            console.log(`${type.toUpperCase()}: ${message}`);
+        }
+
+        // Demo data
+        const demoStats = {
+            teachers: { total: 1247, verified: 892, premium: 156, available: 734 },
+            jobs: { active: 89, thisWeek: 23, featured: 12, applications: 2156 },
+            schools: { total: 234, verified: 189, premium: 45 }
+        };
+
+        // Simulate real-time updates
+        setInterval(() => {
+            // Randomly update some stats
+            if (Math.random() > 0.7) {
+                demoStats.teachers.total += Math.floor(Math.random() * 3);
+                demoStats.jobs.applications += Math.floor(Math.random() * 5);
+
+                // Update UI if admin screen is active
+                const adminScreen = document.getElementById('admin-screen');
+                if (adminScreen && adminScreen.classList.contains('active')) {
+                    // Update would happen here in real app
+                    console.log('📊 Stats updated:', demoStats);
+                }
+            }
+        }, 10000);
+    </script>
+</body>
+</html>
